@@ -9,11 +9,10 @@ pipelines:
         auto_update: true
         branch: main
     stages:
-      - Ansible:
+      - APPLY:
           fetch_materials: true
           approval:
             type: manual
-
           jobs:
             terraform-apply:
               #              timeout: 0
