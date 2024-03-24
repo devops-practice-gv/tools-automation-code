@@ -18,5 +18,5 @@ pipelines:
             ansible:
               #              timeout: 0
               tasks:
-                - exec: {command: ansible-playbook, arguments: ["-i", "54.89.100.102", "tools.yml", "-e",  "ansible-user=ec2-user" , "-e",  "ansible-password=DevOps321", "-e" "tool_name=prometheus" ] , run_if: passed
+                - exec: {command: ansible-playbook, arguments: ["-i", "prometheus.makemyhomesmart.co.uk,", "tools.yml", "-e",  "ansible-user=ec2-user" , "-e",  "ansible-password=DevOps321", "-e" "tool_name=prometheus" ] , run_if: passed
                 }
