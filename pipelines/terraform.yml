@@ -1,0 +1,22 @@
+format_version: 10  # Check out tomzo git hub repo to find out more about how to best create a pipeline yml.
+pipelines:
+  tools-tf-apply:
+    group: Terraform
+    materials:
+      git-8e5959a:
+        git: https://github.com/devops-practice-gv/tools-automation-code.git
+        shallow_clone: false
+        auto_update: true
+        branch: main
+    stages:
+      - APPLY:
+          fetch_materials: true
+          approval:
+            type: manual
+          #            allow_only_on_success: false
+          jobs:
+            terraform-apply:
+              #              timeout: 0
+              tasks:
+                - exec: {command: terraform, arguments: ["init", "-backend-config=modules/state.tfvars"], run_if: passed}
+                - exec: {command: terraform, arguments: ["apply",  "-auto-approve"], run_if: passed}
