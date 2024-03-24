@@ -1,6 +1,6 @@
 format_version: 10  # Check out tomzo git hub repo to find out more about how to best create a pipeline yml.
 pipelines:
-  tools-tf-apply:
+  prometheus:
     group: Terraform
     materials:
       git-8e5959a:
