@@ -15,4 +15,4 @@
     name: prometheus
     state: restarted
     enable: yes
-    demon-reload: yes
+    daemon-reload: yes
