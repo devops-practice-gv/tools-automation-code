@@ -11,23 +11,6 @@ resource "aws_instance" "instance" {
   }
 }
 
-#resource "null_resource" "ansible" {
-#  provisioner "remote-exec" {
-#
-#    connection {
-#      type     = "ssh"
-#      user     = var.ssh_user
-#      password = var.ssh_pass
-#      host     = aws_instance.instance.public_ip
-#    }
-#
-#    inline = [
-#
-#    ]
-#  }
-#
-#}
-
 resource "aws_route53_record" "record" {
   name    = var.tool_name
   type    = "A"
@@ -37,7 +20,7 @@ resource "aws_route53_record" "record" {
 }
 
 resource "aws_iam_role" "role" {
-  name = "${var.tool_name }-role"
+  name = "${var.tool_name}-role"
 
 
   assume_role_policy = jsonencode({
@@ -53,11 +36,26 @@ resource "aws_iam_role" "role" {
       },
     ]
   })
+  inline_policy {
+    name = "${var.tool_name}-my_inline_policy"
+
+    policy = jsonencode({
+      Version   = "2012-10-17"
+      Statement = [
+        {
+          Action   = var.policy_resource_list
+          Effect   = "Allow"
+          Resource = "*"
+        },
+      ]
+    })
+  }
 
   tags = {
     name = "${var.tool_name }-role"
   }
 }
+
 
 resource "aws_iam_instance_profile" "instance_profile" {
   name = "${var.tool_name }-role"

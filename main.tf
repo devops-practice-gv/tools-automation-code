@@ -1,11 +1,12 @@
 module "tools" {
-  for_each      = var.tools
-  source        = "./modules"
+  for_each             = var.tools
+  source               = "./modules"
 
-  zone_id       = var.zone_id
+  zone_id              = var.zone_id
 
-  tool_name     = each.key
-  instance_type = each.value["instance_type"]
+  tool_name            = each.key
+  instance_type        = each.value["instance_type"]
+  policy_resource_list = each.value["policy_resource_list"]
 
 }
 
