@@ -4,6 +4,7 @@ resource "aws_instance" "instance" {
   instance_type = var.instance_type
   vpc_security_group_ids = [data.aws_security_group.security_group.id]
 
+
   tags = {
     Name = var.tool_name
   }
@@ -34,3 +35,30 @@ resource "aws_route53_record" "record" {
   ttl     = 30
 }
 
+resource "aws_iam_role" "role" {
+  name = "${var.tool_name }-role"
+
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
+      },
+    ]
+  })
+
+  tags = {
+    name = "${var.tool_name }-role"
+  }
+}
+
+resource "aws_iam_instance_profile" "instance_profile" {
+  name = "${var.tool_name }-role"
+  role = aws_iam_role.role.name
+}
